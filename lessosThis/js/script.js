@@ -67,5 +67,28 @@
 const btn = document.querySelector('button');
 
 btn.addEventListener('click', function () {
-    console.log(this);
+    this.style.backgroundColor = 'red';
+});
+
+btn.addEventListener('click', (e) => {
+    e.target.style.backgroundColor = 'red';
 })
+// Работает как и This = e.target = но у стрелочной функции. 
+// т.к. в стрелочных функциях нет е.таргета.   
+
+const obj = {
+    num: 5,
+    sayNumber: function () {
+        const say = () => {
+            console.log(this);
+        };
+
+        say();
+    }
+}
+
+obj.sayNumber(); 
+
+const double = (a) => a * 2;
+
+console.log(double(4));

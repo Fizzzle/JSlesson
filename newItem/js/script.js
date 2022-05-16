@@ -145,12 +145,13 @@ window.addEventListener('DOMContentLoaded', function() {
     // используем классы для карточек.
 
     class MenuCard{
-        constructor(src, alt, title, descr, price, parentSelector) {
+        constructor(src, alt, title, descr, price, parentSelector, ...classes) {
             this.src = src;
             this.alt = alt;
             this.title = title;
             this.descr = descr;
             this.price = price;
+            this.classes = classes;
             this.transfer = 33;
             this.changeToUAH();
             this.parentSelector = document.querySelector(parentSelector)
@@ -162,16 +163,23 @@ window.addEventListener('DOMContentLoaded', function() {
 
         render() {
             const card = document.createElement('div');
+            
+            if (this.classes.length === 0) {
+                this.card = 'menu__item';
+                card.classList.add(this.card);
+            } else {
+                this.classes.forEach(className => card.classList.add(className));
+            }
+
+            
             card.innerHTML = `
-                <div class="menu__item">
-                    <img src=${this.src} alt=${this.alt}>
-                    <h3 class="menu__item-subtitle">${this.title}</h3>
-                    <div class="menu__item-descr">${this.descr}</div>
-                    <div class="menu__item-divider"></div>
-                    <div class="menu__item-price">
-                        <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
-                    </div>
+                <img src=${this.src} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.title}</h3>
+                <div class="menu__item-descr">${this.descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
                 </div>
             `;
             this.parentSelector.append(card);
@@ -185,7 +193,7 @@ window.addEventListener('DOMContentLoaded', function() {
         `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих
         овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной
         ценой и высоким качеством!`,
-        9, '.menu .container',
+        9, '.menu .container', 
     ).render();
     new MenuCard(
         "img/tabs/elite.jpg",
@@ -194,7 +202,7 @@ window.addEventListener('DOMContentLoaded', function() {
         `В меню “Премиум” мы используем не только красивый дизайн упаковки, но
                         и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода
                         в ресторан!`,
-        15, '.menu .container',
+        15, '.menu .container', 'menu__item'
     ).render();
     new MenuCard(
         "img/tabs/post.jpg",
@@ -203,6 +211,6 @@ window.addEventListener('DOMContentLoaded', function() {
         `Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие
                         продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное
                         количество белков за счет тофу и импортных вегетарианских стейков.`,
-        25, '.menu .container',
+        25, '.menu .container', 'menu__item'
     ).render();
 });
